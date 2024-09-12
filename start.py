@@ -8,6 +8,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
 import time
+import os
 
 # Initialize a cache dictionary
 train_cache = {}
@@ -90,7 +91,14 @@ def fetch_all_train_data(urls):
     return results
 
 def generate_pdf_with_multiple_pages(train_data_list, date):
-    pdf_filename = f"all_trains_report_{date}.pdf"
+
+    # Ensure output directory exists
+    output_dir = "output"
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
+    # Set the PDF file path inside the output directory
+    pdf_filename = os.path.join(output_dir, f"all_trains_report_{date}.pdf")
     c = canvas.Canvas(pdf_filename, pagesize=letter)
     
     # Set font and size
